@@ -19,6 +19,7 @@ import com.github.javaparser.ast.visitor.ModifierVisitor;
 import com.github.javaparser.ast.visitor.Visitable;
 import com.github.javaparser.metamodel.NodeMetaModel;
 import com.github.javaparser.metamodel.PropertyMetaModel;
+import static com.github.javaparser.StaticJavaParser.*;
 
 //Unused imports
 import java.nio.file.Paths;
@@ -45,7 +46,7 @@ public class Tree2 {
 
     // the following constructor handles preorder notation. E.g., f(a b(c))
     public Tree2(String s) throws IOException {
-        Node tmp = JavaParser.parse(new FileInputStream(s));
+        Node tmp = parse(new FileInputStream(s));
         root = replace(tmp);
     }
 
