@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.github.javaparser.JavaParser;
-
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.MethodCallExpr;
@@ -23,11 +21,6 @@ import static com.github.javaparser.StaticJavaParser.*;
 
 //Unused imports
 import java.nio.file.Paths;
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.expr.Name;
-import com.github.javaparser.ast.expr.VariableDeclarationExpr;
-import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 import static com.github.javaparser.utils.Utils.assertNotNull;
 import static java.util.stream.Collectors.toList;
@@ -35,13 +28,13 @@ import static java.util.stream.Collectors.toList;
 public class Tree2 {
     Node root;
     // function l() which gives the leftmost child
-    ArrayList<Integer> l = new ArrayList<Integer>();
+    ArrayList<Integer> l = new ArrayList<>();
     // list of keyroots, i.e., nodes with a left child and the tree root
-    ArrayList<Integer> keyroots = new ArrayList<Integer>();
+    ArrayList<Integer> keyroots = new ArrayList<>();
     // list of the labels of the nodes used for node comparison
-    ArrayList<String> labels = new ArrayList<String>();
-    Map<Node, Integer> indexes = new HashMap<Node, Integer>();
-    Map<Node, Node> leftmosts = new HashMap<Node, Node>();
+    ArrayList<String> labels = new ArrayList<>();
+    Map<Node, Integer> indexes = new HashMap<>();
+    Map<Node, Node> leftmosts = new HashMap<>();
 
 
     // the following constructor handles preorder notation. E.g., f(a b(c))
@@ -71,9 +64,11 @@ public class Tree2 {
         List<PropertyMetaModel> subLists = allPropertyMetaModels.stream().filter(PropertyMetaModel::isNodeList)
                 .collect(toList());
 
+        StringBuilder nameBuilder = new StringBuilder(name);
         for (PropertyMetaModel a : attributes) {
-            name += a.getValue(node).toString();
+            nameBuilder.append(a.getValue(node).toString());
         }
+        name = nameBuilder.toString();
         for (PropertyMetaModel sn : subNodes) {
             Node nd = (Node) sn.getValue(node);
             if (nd != null) {
@@ -189,7 +184,7 @@ public class Tree2 {
         for (int i = 0; i < l.size(); i++) {
             int flag = 0;
             for (int j = i + 1; j < l.size(); j++) {
-                if (l.get(j) == l.get(i)) {
+                if (l.get(j).equals(l.get(i))) {
                     flag = 1;
                 }
             }
@@ -250,7 +245,7 @@ public class Tree2 {
             for (int j1 = l2.get(j - 1); j1 <= j; j1++) {
                 int i_temp = (l1.get(i - 1) > i1 - 1) ? 0 : i1 - 1;
                 int j_temp = (l2.get(j - 1) > j1 - 1) ? 0 : j1 - 1;
-                if ((l1.get(i1 - 1) == l1.get(i - 1)) && (l2.get(j1 - 1) == l2.get(j - 1))) {
+                if ((l1.get(i1 - 1).equals(l1.get(i - 1)))  && (l2.get(j1 - 1).equals(l2.get(j - 1)))) {
 
                     int Cost = (tree1.labels.get(i1 - 1).equals(tree2.labels.get(j1 - 1))) ? 0 : Relabel;
                     forestdist[i1][j1] = Math.min(
