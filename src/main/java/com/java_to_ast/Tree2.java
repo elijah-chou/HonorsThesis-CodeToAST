@@ -11,16 +11,10 @@ import java.util.Map;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.ast.visitor.ModifierVisitor;
-import com.github.javaparser.ast.visitor.Visitable;
 import com.github.javaparser.metamodel.NodeMetaModel;
 import com.github.javaparser.metamodel.PropertyMetaModel;
 import static com.github.javaparser.StaticJavaParser.*;
-
-//Unused imports
-import java.nio.file.Paths;
 
 import static com.github.javaparser.utils.Utils.assertNotNull;
 import static java.util.stream.Collectors.toList;
@@ -299,18 +293,6 @@ public class Tree2 {
                     x.getMessage()),
                     x);
         }
-
-    }
-    public static void removeMain(Node cu){
-        cu.accept(new ModifierVisitor<Void>() {
-            @Override
-            public Visitable visit(MethodCallExpr n, Void arg) {
-                if (n.getName().getIdentifier().equals("main")) {
-                    return null;
-                }
-                return super.visit(n, arg);
-            }
-        }, null);
 
     }
 }
