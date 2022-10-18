@@ -18,18 +18,17 @@ public class GetDistance {
      * @throws Exception
      */
     public static void generateDistance() throws Exception {
-        String wrongDir = "/Users/cynthia/Desktop/ELITE-2019/Research-autograder/Type 4";
-        String rightDir = "/Users/cynthia/Desktop/ELITE-2019/Research-autograder/Type 0";
-        List<String> wrongFiles = Tree2.importfiles(Paths.get(wrongDir), "");
-        List<String> rightFiles = Tree2.importfiles(Paths.get(rightDir), "");
+        String dir1 = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/Files 1";
+        String dir2 = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/Files 2";
+        List<String> files1 = Tree2.importfiles(Paths.get(dir1), "");
+        List<String> files2 = Tree2.importfiles(Paths.get(dir2), "");
         int curDis;
-        double[][] score_distance = new double[wrongFiles.size()][2];
-        String[] studentID = new String[wrongFiles.size()];
+        double[][] score_distance = new double[files2.size()][2];
         int count = 0;
-        for (String file1 : wrongFiles) {
+        for (String file1 : files1) {
             int min = Integer.MAX_VALUE;
             String minFile;
-            for (String file2 : rightFiles) {
+            for (String file2 : files2) {
                 Tree2 file_1_tree = new Tree2(file1);
                 Tree2 file_2_tree = new Tree2(file2);
                 curDis = Tree2.ZhangShasha(file_1_tree, file_2_tree);
@@ -39,17 +38,16 @@ public class GetDistance {
                 }
             }
             score_distance[count][0] = min * 1.0;
-            String[] tmp = file1.split("/");
-            tmp = tmp[tmp.length - 1].split("-");
-            score_distance[count][1] = Integer.parseInt(tmp[2]) * 1.0 / (Integer.parseInt(tmp[3]) * 1.0);
-            studentID[count] = tmp[0];
+//            String[] tmp = file1.split("/");
+//            tmp = tmp[tmp.length - 1].split("-");
+//            score_distance[count][1] = Integer.parseInt(tmp[2]) * 1.0 / (Integer.parseInt(tmp[3]) * 1.0);
             count++;
         }
 
-        CSVWriter writer = new CSVWriter(new FileWriter("/Users/cynthia/Desktop/ELITE-2019/Research-autograder/Results/data_ArrowWheel2.csv", false));
-        writer.writeNext(new String[]{"Distance", "Score", "Student ID"});
+        CSVWriter writer = new CSVWriter(new FileWriter("C:/Users/Elijah/Desktop/ELITE/Research-creativity/Results/data.csv", false));
+        writer.writeNext(new String[]{"Distance", "Score"});
         for (int i = 0; i < score_distance.length; i++) {
-            String[] tmp = {score_distance[i][0] + "", score_distance[i][1] + "", studentID[i]};
+            String[] tmp = {score_distance[i][0] + "", score_distance[i][1] + ""};
             writer.writeNext(tmp);
         }
         writer.close();

@@ -313,28 +313,4 @@ public class Tree2 {
         }, null);
 
     }
-
-    public static void quizgrader(String quizname) throws IOException {
-        try {
-            String root = System.getProperty("user.dir");
-            List<String> filelist = importfiles(Paths.get(root+"\\Type 3"), quizname);
-            List<String> answerlist = importfiles(Paths.get(root+"\\Type 0"), quizname);
-            //Tree2 answer = new Tree2("C:\\Users\\Elizabeth\\IdeaProjects\\Research-autograder\\qtest-questions\\questions-F17\\quiz01-questions\\question6-a.txt");
-            BufferedWriter writer = new BufferedWriter(new FileWriter(quizname));
-            for (String sf : filelist) {
-                Tree2 tree2 = new Tree2(sf);
-                double res = Integer.MAX_VALUE;
-                for (String sa: answerlist){
-                    Tree2 answer = new Tree2(sa);
-                    res= Math.min(res,ZhangShasha(answer, tree2));
-                }
-                String studentname = sf.split(".")[2];
-                writer.write(studentname + " " + res + "\n");
-            }
-            writer.close();
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-
-    }
 }
