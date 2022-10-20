@@ -15,7 +15,6 @@ public class GetDistance {
      * This method generates the distance between each wrong code to its closest right algorithm, and write the result
      * to a csv file for further analysis.
      *
-     * @throws Exception
      */
     public static void generateDistance() throws Exception {
         String dir1 = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/Files 1";
@@ -28,14 +27,12 @@ public class GetDistance {
         List<String> files1Names = new ArrayList<>();
         for (String file1 : files1) {
             int min = Integer.MAX_VALUE;
-            String minFile;
             for (String file2 : files2) {
                 Tree2 file_1_tree = new Tree2(file1);
                 Tree2 file_2_tree = new Tree2(file2);
                 curDis = Tree2.ZhangShasha(file_1_tree, file_2_tree);
                 if (curDis < min) {
                     min = curDis;
-                    minFile = file2;
                 }
             }
             files1Names.add(file1);
@@ -45,11 +42,10 @@ public class GetDistance {
         String target="\\";
         String replacement="\\\\";
         ArrayList<String> finalNames = new ArrayList<>();
-        for(int i = 0; i<files1Names.size(); i++) {
-            String path = files1Names.get(i);
+        for (String path : files1Names) {
             path = path.replace(target, replacement);
             String[] pathArray = path.split("\\\\");
-            finalNames.add(pathArray[pathArray.length-1]);
+            finalNames.add(pathArray[pathArray.length - 1]);
         }
 
         CSVWriter writer = new CSVWriter(new FileWriter("C:/Users/Elijah/Desktop/ELITE/Research-creativity/Results/data.csv", false));
