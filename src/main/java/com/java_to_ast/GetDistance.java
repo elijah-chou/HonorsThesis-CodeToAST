@@ -23,8 +23,9 @@ public class GetDistance {
         List<String> files1 = Tree2.importfiles(Paths.get(dir1), "");
         List<String> files2 = Tree2.importfiles(Paths.get(dir2), "");
         int curDis;
-        double[][] score_distance = new double[files2.size()][2];
+        double[][] score_distance = new double[files2.size()][1];
         int count = 0;
+        List<String> files1Names = new ArrayList<>();
         for (String file1 : files1) {
             int min = Integer.MAX_VALUE;
             String minFile;
@@ -37,17 +38,16 @@ public class GetDistance {
                     minFile = file2;
                 }
             }
+            String[] filepath = file1.split("\\");
+            files1Names.add(filepath[filepath.length-1]);
             score_distance[count][0] = min * 1.0;
-//            String[] tmp = file1.split("/");
-//            tmp = tmp[tmp.length - 1].split("-");
-//            score_distance[count][1] = Integer.parseInt(tmp[2]) * 1.0 / (Integer.parseInt(tmp[3]) * 1.0);
             count++;
         }
 
         CSVWriter writer = new CSVWriter(new FileWriter("C:/Users/Elijah/Desktop/ELITE/Research-creativity/Results/data.csv", false));
-        writer.writeNext(new String[]{"Distance", "Score"});
+        writer.writeNext(new String[]{"File Path", "Distance"});
         for (int i = 0; i < score_distance.length; i++) {
-            String[] tmp = {score_distance[i][0] + "", score_distance[i][1] + ""};
+            String[] tmp = {files1Names.get(i) + "", score_distance[i][0] + ""};
             writer.writeNext(tmp);
         }
         writer.close();
