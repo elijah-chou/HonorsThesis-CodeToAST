@@ -38,16 +38,24 @@ public class GetDistance {
                     minFile = file2;
                 }
             }
-            String[] filepath = file1.split("\\");
-            files1Names.add(filepath[filepath.length-1]);
+            files1Names.add(file1);
             score_distance[count][0] = min * 1.0;
             count++;
+        }
+        String target="\\";
+        String replacement="\\\\";
+        ArrayList<String> finalNames = new ArrayList<>();
+        for(int i = 0; i<files1Names.size(); i++) {
+            String path = files1Names.get(i);
+            path = path.replace(target, replacement);
+            String[] pathArray = path.split("\\\\");
+            finalNames.add(pathArray[pathArray.length-1]);
         }
 
         CSVWriter writer = new CSVWriter(new FileWriter("C:/Users/Elijah/Desktop/ELITE/Research-creativity/Results/data.csv", false));
         writer.writeNext(new String[]{"File Path", "Distance"});
         for (int i = 0; i < score_distance.length; i++) {
-            String[] tmp = {files1Names.get(i) + "", score_distance[i][0] + ""};
+            String[] tmp = {finalNames.get(i) + "", score_distance[i][0] + ""};
             writer.writeNext(tmp);
         }
         writer.close();
