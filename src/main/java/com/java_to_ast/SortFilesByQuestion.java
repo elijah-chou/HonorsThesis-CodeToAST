@@ -5,28 +5,19 @@ import java.nio.file.Files;
 import java.nio.file.*;
 public class SortFilesByQuestion {
     public static void main(String[] args) throws IOException {
-        File dir = new File("C:/Users/Elijah/Desktop/ELITE/Research-creativity/test"); //replace with directory w/ text files
+        File dir = new File("C:/Users/Elijah/Desktop/ELITE/Research-creativity/code-answers-scores"); //replace with directory w/ text files
         File[] directoryListing = dir.listFiles();
         if (directoryListing != null) {
             for (File child : directoryListing) {
                 String childPath = child.getAbsolutePath();
                 String childName = child.getName();
-                String finalPath = childName;
+                String cwdPath = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/code-answers-scores/";
                 String[] split = childName.split("\\.");
-                switch (split[6]) {
-                    case "SquareDiag":
-                        finalPath = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/test/SquareDiag/";
-                        break;
-                    case "WrongStarLine":
-                        finalPath = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/test/WrongStarLine/";
-                        break;
-                    default:
-                        System.out.println("No folder for " + split[6]);
-                }
+                String newFolderPath = cwdPath + split[6];
 
-                boolean makeFolder = new File(finalPath).mkdirs();
+                boolean makeFolder = new File(newFolderPath).mkdirs();
 
-                finalPath = finalPath + childName;
+                String finalPath = newFolderPath + "/" + childName;
 
                 Path temp = Files.move(Paths.get(childPath), Paths.get(finalPath));
                 if (temp == null) {
