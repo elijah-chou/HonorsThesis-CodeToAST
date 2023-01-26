@@ -2,6 +2,7 @@ package com.java_to_ast;
 
 import com.opencsv.CSVWriter;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -9,17 +10,17 @@ import java.util.List;
 
 public class GetDistance2 {
 
-    public static void main(String[] args) throws Exception {
-        generateDistance();
-    }
-
     /**
-     * This method generates the distance between each wrong code to its closest right algorithm, and write the result
-     * to a csv file for further analysis.
-     *
+     * This method calculates the tree edit distances between each file, and then calculates the average distance for
+     * each. A percentage is also calculated, which is standardized using the maximum average distance within each
+     * cohort. The method ends by writing all results into a CSV file. The method is also written to catch any
+     * parsing errors that may occur with Java programs that cannot be parsed with JavaParser for any reason.
+     * @param dir1
+     * @param question
+     * @throws Exception
      */
-    public static void generateDistance() throws Exception {
-        String dir1 = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/Files";
+    public static void calculateDistanceForProblem(String dir1, String question) throws Exception {
+        System.out.println("Now calculating tree edit distances for " + question);
         List<String> files = Tree2.importfiles(Paths.get(dir1), "");
         List<String> finalFiles = new ArrayList<>();
         for (int i = 0; i < files.size(); i++) {
@@ -62,7 +63,7 @@ public class GetDistance2 {
                 max = score_distance[i][0];
             }
         }
-        String csvName = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/Results/";
+        String csvName = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/testResults/";
         String[] findProblem = finalFiles.get(0).split("\\.");
         csvName = csvName + findProblem[6] + ".csv";
         CSVWriter writer = new CSVWriter(new FileWriter(csvName, false));
@@ -75,5 +76,26 @@ public class GetDistance2 {
             writer.writeNext(tmp);
         }
         writer.close();
+    }
+
+    public static void main(String[] args) throws Exception {
+        generateDistance();
+    }
+
+    /**
+     * This method finds all folders in a directory and initiates the calculateDistanceForProblem method for each
+     * folder. This should be used after sorting all possible questions using the SortFilesByQuestion.java class.
+     *
+     */
+    public static void generateDistance() throws Exception {
+        //defines the directory entry of folder of coding programs to be compared with each other
+        String homeDir = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/test";
+        File dir = new File(homeDir);
+        String[] javaQuestions = dir.list();
+        for (String question : javaQuestions) {
+            String newPath = homeDir + "/" + question;
+            calculateDistanceForProblem(newPath, question);
+        }
+
     }
 }
