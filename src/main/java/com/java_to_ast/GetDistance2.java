@@ -22,13 +22,15 @@ public class GetDistance2 {
     public static void calculateDistanceForProblem(String dir1, String question) throws Exception {
         System.out.println("Now calculating tree edit distances for " + question);
         List<String> files = Tree2.importfiles(Paths.get(dir1), "");
-        List<String> finalFiles = new ArrayList<>();
+        List<String> finalFileNames = new ArrayList<>();
+        List<Tree2> finalFiles = new ArrayList<>();
         for (int i = 0; i < files.size(); i++) {
             try {
                 Tree2 test = new Tree2(files.get(i));
-                finalFiles.add(files.get(i));
+                finalFiles.add(test);
+                finalFileNames.add(files.get(i));
             } catch (Exception e) {
-                System.out.println(files.get(i) + " could not be parsed into AST.");
+//                System.out.println(files.get(i) + " could not be parsed into AST.");
             }
         }
         int curDis;
@@ -36,13 +38,13 @@ public class GetDistance2 {
         int count = 0;
 
         for (int i = 0; i < finalFiles.size(); i++) {
-            Tree2 file_1_tree = new Tree2(finalFiles.get(i));
+            Tree2 file_1_tree = finalFiles.get(i);
             int total = 0;
             int totalFiles = 0;
             for (int j = 0; j < finalFiles.size(); j++) {
                 if (i != j) {
                     int min = Integer.MAX_VALUE;
-                    Tree2 file_2_tree = new Tree2(finalFiles.get(j));
+                    Tree2 file_2_tree = finalFiles.get(j);
                     curDis = Tree2.ZhangShasha(file_1_tree, file_2_tree);
                     if (curDis < min) {
                         min = curDis;
@@ -63,13 +65,12 @@ public class GetDistance2 {
                 max = score_distance[i][0];
             }
         }
-        String csvName = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/testResults/";
-        String[] findProblem = finalFiles.get(0).split("\\.");
-        csvName = csvName + findProblem[6] + ".csv";
+        String csvName = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/Results/";
+        csvName = csvName + question + ".csv";
         CSVWriter writer = new CSVWriter(new FileWriter(csvName, false));
         writer.writeNext(new String[]{"Year", "Semester", "Quiz #", "Student ID", "Coding Problem", "Score", "Total", "Distance", "Percent"});
         for (int i = 0; i < score_distance.length; i++) {
-            String[] split = finalFiles.get(i).split("\\.");
+            String[] split = finalFileNames.get(i).split("\\.");
             String[] separateYear = split[0].split("\\\\");
             String[] tmp = {separateYear[separateYear.length - 1] + "", split[2] + "", split[4] + "", split[5] + "",
                     split[6] + "", split[7] + "", split[8] + "", score_distance[i][0] + "", (score_distance[i][0] / max) + ""};
@@ -89,12 +90,20 @@ public class GetDistance2 {
      */
     public static void generateDistance() throws Exception {
         //defines the directory entry of folder of coding programs to be compared with each other
-        String homeDir = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/test";
+        String homeDir = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/code-answers-scores";
+        String resultsDir = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/Results";
         File dir = new File(homeDir);
         String[] javaQuestions = dir.list();
         for (String question : javaQuestions) {
             String newPath = homeDir + "/" + question;
-            calculateDistanceForProblem(newPath, question);
+            String resultPath = resultsDir + "/" + question + ".csv";
+            File testFile = new File(resultPath);
+            if (testFile.exists()) {
+                System.out.println("CSV file for " + question + " already exists.");
+            }
+            else {
+                calculateDistanceForProblem(newPath, question);
+            }
         }
 
     }
