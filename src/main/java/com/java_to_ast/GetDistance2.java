@@ -26,7 +26,13 @@ public class GetDistance2 {
         for (int i = 0; i < files.size(); i++) {
             try {
                 Tree2 test = new Tree2(files.get(i));
-                finalFileNames.add(files.get(i));
+                String[] split = files.get(i).split("\\.");
+                if (split[7].equals("0")) {
+//                    System.out.println(files.get(i) + " has a score of 0 so is excluded.");
+                }
+                else {
+                    finalFileNames.add(files.get(i));
+                }
             } catch (Exception e) {
 //                System.out.println(files.get(i) + " could not be parsed into AST.");
             }
@@ -52,7 +58,7 @@ public class GetDistance2 {
 //                    System.out.println(i + " " + j + " " + curDis);
                 }
             }
-//            System.out.println(files1.get(i) + " has total of " + total + "and was compared with " + totalFiles + " files.");
+//            System.out.println(finalFileNames.get(i) + " has total of " + total + "and was compared with " + totalFiles + " files.");
             double avg = (total * 1.0) / (totalFiles * 1.0);
             score_distance[i][0] = avg;
         }
@@ -63,7 +69,8 @@ public class GetDistance2 {
                 max = score_distance[i][0];
             }
         }
-        String csvName = "C:/Users/ecool/Desktop/Results/";
+        //String csvName = "C:/Users/ecool/Desktop/Results/";
+        String csvName = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/testResults/";
         csvName = csvName + question + ".csv";
         CSVWriter writer = new CSVWriter(new FileWriter(csvName, false));
         writer.writeNext(new String[]{"Year", "Semester", "Quiz #", "Student ID", "Coding Problem", "Score", "Total", "Distance", "Percent"});
@@ -88,8 +95,10 @@ public class GetDistance2 {
      */
     public static void generateDistance() throws Exception {
         //defines the directory entry of folder of coding programs to be compared with each other
-        String homeDir = "C:/Users/ecool/Desktop/code-answers-scores/code-answers-scores";
-        String resultsDir = "C:/Users/ecool/Desktop/Results";
+        //String homeDir = "C:/Users/ecool/Desktop/code-answers-scores/code-answers-scores";
+        String homeDir = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/test";
+        //String resultsDir = "C:/Users/ecool/Desktop/Results";
+        String resultsDir = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/testResults";
         File dir = new File(homeDir);
         String[] javaQuestions = dir.list();
         for (String question : javaQuestions) {
