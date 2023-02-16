@@ -27,14 +27,16 @@ public class GetDistance2 {
             try {
                 Tree2 test = new Tree2(files.get(i));
                 String[] split = files.get(i).split("\\.");
-                if (split[7].equals("0")) {
-//                    System.out.println(files.get(i) + " has a score of 0 so is excluded.");
+                int points = Integer.getInteger(split[7]);
+                int maximum = Integer.getInteger(split[8]);
+                if ((points/maximum) != 1) {
+                    System.out.println(files.get(i) + " doesn't have a full score so is excluded.");
                 }
                 else {
                     finalFileNames.add(files.get(i));
                 }
             } catch (Exception e) {
-//                System.out.println(files.get(i) + " could not be parsed into AST.");
+                System.out.println(files.get(i) + " could not be parsed into AST.");
             }
         }
         int curDis;
