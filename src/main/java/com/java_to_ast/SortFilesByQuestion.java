@@ -5,13 +5,13 @@ import java.nio.file.Files;
 import java.nio.file.*;
 public class SortFilesByQuestion {
     public static void main(String[] args) throws IOException {
-        File dir = new File("C:/Users/Elijah/Desktop/ELITE/Research-creativity/code-answers-scores"); //replace with directory w/ text files
+        File dir = new File("C:/Users/ecool/Desktop/code-answers-scores/code-answers-scores"); //replace with directory w/ text files
         File[] directoryListing = dir.listFiles();
         if (directoryListing != null) {
             for (File child : directoryListing) {
                 String childPath = child.getAbsolutePath();
                 String childName = child.getName();
-                String cwdPath = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/code-answers-scores/";
+                String cwdPath = "C:/Users/ecool/Desktop/code-answers-scores/code-answers-scores/";
                 String[] split = childName.split("\\.");
                 String newFolderPath = cwdPath + split[6];
 

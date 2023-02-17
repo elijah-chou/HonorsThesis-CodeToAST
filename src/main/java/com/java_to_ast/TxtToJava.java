@@ -3,7 +3,7 @@ import java.io.File;
 
 public class TxtToJava {
     public static void main(String[] args) {
-        File dir = new File("C:/Users/Elijah/Desktop/ELITE/Research-creativity/code-answers-scores"); //replace with directory w/ text files
+        File dir = new File("C:/Users/ecool/Desktop/code-answers-scores/code-answers-scores"); //replace with directory w/ text files
         File[] directoryListing = dir.listFiles();
         if (directoryListing != null) {
             for (File child : directoryListing) {
