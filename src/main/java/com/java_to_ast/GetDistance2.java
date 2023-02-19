@@ -27,16 +27,17 @@ public class GetDistance2 {
             try {
                 Tree2 test = new Tree2(files.get(i));
                 String[] split = files.get(i).split("\\.");
-                int points = Integer.getInteger(split[7]);
-                int maximum = Integer.getInteger(split[8]);
-                if ((points/maximum) != 1) {
-                    System.out.println(files.get(i) + " doesn't have a full score so is excluded.");
+                int points = Integer.parseInt(split[7]);
+                int maximum = Integer.parseInt(split[8]);
+                if (points != maximum) {
+//                    System.out.println(files.get(i) + " doesn't have a full score so is excluded.");
                 }
                 else {
+//                    System.out.println(files.get(i) + " added to final list.");
                     finalFileNames.add(files.get(i));
                 }
             } catch (Exception e) {
-                System.out.println(files.get(i) + " could not be parsed into AST.");
+//                System.out.println(files.get(i) + " could not be parsed into AST.");
             }
         }
         int curDis;
@@ -71,11 +72,11 @@ public class GetDistance2 {
                 max = score_distance[i][0];
             }
         }
-        //String csvName = "C:/Users/ecool/Desktop/Results/";
-        String csvName = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/testResults/";
+        String csvName = "C:/Users/ecool/Desktop/Full Score Results/";
+//        String csvName = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/testResults/";
         csvName = csvName + question + ".csv";
         CSVWriter writer = new CSVWriter(new FileWriter(csvName, false));
-        writer.writeNext(new String[]{"Year", "Semester", "Quiz #", "Student ID", "Coding Problem", "Score", "Total", "Distance", "Percent"});
+        writer.writeNext(new String[]{"Year", "Semester", "Quiz #", "Student ID", "Coding Problem", "Score", "Maximum", "Distance", "Percent"});
         for (int i = 0; i < score_distance.length; i++) {
             String[] split = finalFileNames.get(i).split("\\.");
             String[] separateYear = split[0].split("\\\\");
@@ -97,10 +98,10 @@ public class GetDistance2 {
      */
     public static void generateDistance() throws Exception {
         //defines the directory entry of folder of coding programs to be compared with each other
-        //String homeDir = "C:/Users/ecool/Desktop/code-answers-scores/code-answers-scores";
-        String homeDir = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/test";
-        //String resultsDir = "C:/Users/ecool/Desktop/Results";
-        String resultsDir = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/testResults";
+        String homeDir = "C:/Users/ecool/Desktop/code-answers-scores/code-answers-scores";
+//        String homeDir = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/test";
+        String resultsDir = "C:/Users/ecool/Desktop/Full Score Results";
+//        String resultsDir = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/testResults";
         File dir = new File(homeDir);
         String[] javaQuestions = dir.list();
         for (String question : javaQuestions) {
