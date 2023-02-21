@@ -37,11 +37,6 @@ public class Tree2 {
         root = replace(tmp);
     }
 
-    public Node getroot() {
-        return root;
-    }
-
-
     public void traverse() {
         // put together an ordered list of node labels of the tree
         traverse(root, "root", labels);
@@ -61,10 +56,12 @@ public class Tree2 {
         StringBuilder nameBuilder = new StringBuilder(name);
         for (PropertyMetaModel a : attributes) {
             nameBuilder.append(a.getValue(node).toString());
+//            System.out.println(a);
         }
         name = nameBuilder.toString();
         for (PropertyMetaModel sn : subNodes) {
             Node nd = (Node) sn.getValue(node);
+//            System.out.println(sn.getName());
             if (nd != null) {
 
                 labels = traverse(nd, sn.getName(), labels);
@@ -74,8 +71,6 @@ public class Tree2 {
         for (PropertyMetaModel sl : subLists) {
             NodeList<? extends Node> nl = (NodeList<? extends Node>) sl.getValue(node);
             if (nl != null && nl.isNonEmpty()) {
-
-                //builder.append(System.lineSeparator() + indent(level) + sl.getName() + ": ");
                 String slName = sl.getName().substring(0, sl.getName().length() - 1);
                 for (Node nd : nl) {
 
@@ -85,6 +80,9 @@ public class Tree2 {
             }
         }
         labels.add(name);
+//        for (String label: labels) {
+//            System.out.println(label);
+//        }
         return labels;
     }
 
@@ -97,8 +95,6 @@ public class Tree2 {
         assertNotNull(node);
         NodeMetaModel metaModel = node.getMetaModel();
         List<PropertyMetaModel> allPropertyMetaModels = metaModel.getAllPropertyMetaModels();
-        List<PropertyMetaModel> attributes = allPropertyMetaModels.stream().filter(PropertyMetaModel::isAttribute)
-                .filter(PropertyMetaModel::isSingular).collect(toList());
         List<PropertyMetaModel> subNodes = allPropertyMetaModels.stream().filter(PropertyMetaModel::isNode)
                 .filter(PropertyMetaModel::isSingular).collect(toList());
         List<PropertyMetaModel> subLists = allPropertyMetaModels.stream().filter(PropertyMetaModel::isNodeList)
