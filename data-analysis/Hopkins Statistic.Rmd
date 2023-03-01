@@ -1,0 +1,33 @@
+---
+title: "Hopkins Statistic"
+author: "Elijah Chou"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Import 'hopkins' package and other needed packages
+
+```{r}
+library(hopkins)
+library(data.table)
+library(tidyverse)
+```
+
+## Load data
+
+```{r}
+setwd("C:/Users/Elijah/Desktop/results-including-0-scores/")
+df <-
+  list.files(path="/", pattern = "*.csv") %>%
+  map_df(~read_csv(.))
+df
+
+getwd()
+
+```
+
+
