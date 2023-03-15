@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r cars}
 problem_data <- read.csv("coding_problem_model_data.csv")
-lm = lm(Distance.Z.score~., data = problem_data)
+lm = lm(Distance.Z.score~.+0, data = problem_data)
 summary(lm)
 
 ```
@@ -22,7 +22,7 @@ summary(lm)
 
 ```{r pressure, echo=FALSE}
 student_data <- read.csv("student_model_data.csv")
-lm2 = lm(Distance.Z.score~., data = student_data)
+lm2 = lm(Distance.Z.score~.+0, data = student_data)
 summary(lm2)
 ```
 
