@@ -17,6 +17,9 @@ lm = lm(Distance.Z.score~.+0, data = problem_data)
 summary(lm)
 
 ```
+```{r}
+BIC(lm)
+```
 
 ## Model based on Student Data
 
@@ -24,6 +27,9 @@ summary(lm)
 student_data <- read.csv("student_model_data.csv")
 lm2 = lm(Distance.Z.score~.+0, data = student_data)
 summary(lm2)
+```
+```{r}
+BIC(lm2)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
