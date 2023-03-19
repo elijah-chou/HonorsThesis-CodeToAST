@@ -115,6 +115,5 @@ public class GetDistance2 {
                 calculateDistanceForProblem(newPath, question);
             }
         }
-
     }
 }
