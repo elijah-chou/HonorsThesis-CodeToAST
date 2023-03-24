@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static org.apache.commons.io.FileUtils.copyFileToDirectory;
+
 public class SortFilesByQuestion {
     public static void main(String[] args) throws IOException {
         File dir = new File("C:/Users/Elijah/Downloads/code-answers-scores-python/code-answers-scores-python"); //replace with directory w/ text files
@@ -20,12 +22,7 @@ public class SortFilesByQuestion {
 
                 boolean makeFolder = new File(newFolderPath).mkdirs();
 
-                String finalPath = newFolderPath + "/" + childName;
-
-                Path temp = Files.move(Paths.get(childPath), Paths.get(finalPath));
-                if (temp == null) {
-                    System.out.println("Failed to move file" + childName);
-                }
+                copyFileToDirectory(child, new File(newFolderPath));
             }
         }
     }
