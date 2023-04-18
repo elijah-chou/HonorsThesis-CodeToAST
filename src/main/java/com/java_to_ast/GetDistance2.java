@@ -25,25 +25,21 @@ public class GetDistance2 {
         List<String> finalFileNames = new ArrayList<>();
         for (int i = 0; i < files.size(); i++) {
             try {
+                // This try-catch block is used to filter out any Java code that cannot be parsed into abstract syntax trees because of any syntax errors.
                 Tree2 test = new Tree2(files.get(i));
-                String[] split = files.get(i).split("\\.");
-                int points = Integer.parseInt(split[7]);
-                int maximum = Integer.parseInt(split[8]);
-                if (points != maximum) {
-//                    System.out.println(files.get(i) + " doesn't have a full score so is excluded.");
-                }
-                else {
-//                    System.out.println(files.get(i) + " added to final list.");
-                    finalFileNames.add(files.get(i));
-                }
+                finalFileNames.add(files.get(i));
             } catch (Exception e) {
-//                System.out.println(files.get(i) + " could not be parsed into AST.");
+                // Feel free to comment out this line in case you do not need to know what files specifically are not parseable into AST.
+                System.out.println(files.get(i) + " could not be parsed into AST.");
             }
         }
         int curDis;
         double[][] score_distance = new double[finalFileNames.size()][1];
         int count = 0;
-
+        /**
+         * The following block of code calculates the tree edit distance from one program to all other programs in the same folder. These distances are added to a total,
+         * and then the total is divided by the number of comparisons made to make a final average.
+         */
         for (int i = 0; i < finalFileNames.size(); i++) {
             Tree2 file_1_tree = new Tree2(finalFileNames.get(i));
             int total = 0;
@@ -58,30 +54,31 @@ public class GetDistance2 {
                     }
                     total += min;
                     totalFiles++;
-//                    System.out.println(i + " " + j + " " + curDis);
                 }
             }
-//            System.out.println(finalFileNames.get(i) + " has total of " + total + "and was compared with " + totalFiles + " files.");
             double avg = (total * 1.0) / (totalFiles * 1.0);
             score_distance[i][0] = avg;
         }
-
         double max = Integer.MIN_VALUE;
         for (int i = 0; i < score_distance.length; i++) {
             if (score_distance[i][0] > max) {
                 max = score_distance[i][0];
             }
         }
+        // Change the csvName variable to the final path where you want the results to be stored at.
         String csvName = "C:/Users/ecool/Desktop/Full Score Results/";
-//        String csvName = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/testResults/";
         csvName = csvName + question + ".csv";
         CSVWriter writer = new CSVWriter(new FileWriter(csvName, false));
-        writer.writeNext(new String[]{"Year", "Semester", "Quiz #", "Student ID", "Coding Problem", "Score", "Maximum", "Distance", "Percent"});
+        /**
+         * The code below extracts information from the file names of each Java project and also includes the final calculated distance from above.
+         * Note that your data may not include the same information as our raw data files, so please adjust the code block below accordingly.
+         */
+        writer.writeNext(new String[]{"Year", "Semester", "Quiz #", "Student ID", "Coding Problem", "Score", "Maximum", "Distance"});
         for (int i = 0; i < score_distance.length; i++) {
             String[] split = finalFileNames.get(i).split("\\.");
             String[] separateYear = split[0].split("\\\\");
             String[] tmp = {separateYear[separateYear.length - 1] + "", split[2] + "", split[4] + "", split[5] + "",
-                    split[6] + "", split[7] + "", split[8] + "", score_distance[i][0] + "", (score_distance[i][0] / max) + ""};
+                    split[6] + "", split[7] + "", split[8] + "", score_distance[i][0] + ""};
             writer.writeNext(tmp);
         }
         writer.close();
@@ -97,17 +94,17 @@ public class GetDistance2 {
      *
      */
     public static void generateDistance() throws Exception {
-        //defines the directory entry of folder of coding programs to be compared with each other
+        // Defines the main directory of ***SORTED*** coding programs to be compared with each other. Please change accordingly.
         String homeDir = "C:/Users/ecool/Desktop/code-answers-scores/code-answers-scores";
-//        String homeDir = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/test";
+        // Defines the main directory where the final CSV files are stored. Please change accordingly.
         String resultsDir = "C:/Users/ecool/Desktop/Full Score Results";
-//        String resultsDir = "C:/Users/Elijah/Desktop/ELITE/Research-creativity/testResults";
         File dir = new File(homeDir);
         String[] javaQuestions = dir.list();
         for (String question : javaQuestions) {
             String newPath = homeDir + "/" + question;
             String resultPath = resultsDir + "/" + question + ".csv";
             File testFile = new File(resultPath);
+            // Tests to see if the calculations were already done for the respective coding question. If not, it goes ahead and calculates the tree edit distances.
             if (testFile.exists()) {
                 System.out.println("CSV file for " + question + " already exists.");
             }

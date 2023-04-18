@@ -56,16 +56,12 @@ public class Tree2 {
         StringBuilder nameBuilder = new StringBuilder(name);
         for (PropertyMetaModel a : attributes) {
             nameBuilder.append(a.getValue(node).toString());
-//            System.out.println(a);
         }
         name = nameBuilder.toString();
         for (PropertyMetaModel sn : subNodes) {
             Node nd = (Node) sn.getValue(node);
-//            System.out.println(sn.getName());
             if (nd != null) {
-
                 labels = traverse(nd, sn.getName(), labels);
-
             }
         }
         for (PropertyMetaModel sl : subLists) {
@@ -73,16 +69,11 @@ public class Tree2 {
             if (nl != null && nl.isNonEmpty()) {
                 String slName = sl.getName().substring(0, sl.getName().length() - 1);
                 for (Node nd : nl) {
-
                     labels = traverse(nd, slName, labels);
-
                 }
             }
         }
         labels.add(name);
-//        for (String label: labels) {
-//            System.out.println(label);
-//        }
         return labels;
     }
 
@@ -100,34 +91,21 @@ public class Tree2 {
         List<PropertyMetaModel> subLists = allPropertyMetaModels.stream().filter(PropertyMetaModel::isNodeList)
                 .collect(toList());
 
-
         for (PropertyMetaModel sn : subNodes) {
-
             Node nd = (Node) sn.getValue(node);
             if (nd != null) {
-
                 index(nd, index);
-
             }
-
         }
 
         for (PropertyMetaModel sl : subLists) {
             NodeList<? extends Node> nl = (NodeList<? extends Node>) sl.getValue(node);
             if (nl != null && nl.isNonEmpty()) {
-
-                //builder.append(System.lineSeparator() + indent(level) + sl.getName() + ": ");
-                //String slName = sl.getName().substring(0, sl.getName().length() - 1);
                 for (Node nd : nl) {
-
                     index(nd, index);
-
                 }
             }
         }
-        //for (int i = 0; i < node.getChildNodes().size(); i++) {
-        //  index = index(node.getChildNodes().get(i), index);
-        //}
         index++;
         indexes.put(node, index);
         return index;
@@ -258,7 +236,6 @@ public class Tree2 {
         return forestdist[i][j];
     }
 
-
     public static Node replace(Node cu) {
         String[][] arrayOfIndex;
         List<SimpleName> listOfVariable = cu.getChildNodesByType(SimpleName.class);
@@ -289,6 +266,5 @@ public class Tree2 {
                     x.getMessage()),
                     x);
         }
-
     }
 }
