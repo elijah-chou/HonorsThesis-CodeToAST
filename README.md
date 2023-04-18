@@ -1,29 +1,31 @@
-Creativity in Programming: Java Code Implementation
+# Using the Java Code Creativity Measure Calculation Implementation
 
 ---
 ## Introduction
-This repository holds the files used to 1) convert Java code into Abstract Syntax Trees with JavaParser and 2) calculate the distance between two such trees using the algorithms proposed by Kaizhong Zhang and Dennis Shasha in 1989. The purpose of this project is to calculate distances between different code files in an attempt to utilize the distance as a metric of creativity in programming.
+This folder contains all the files necessary for calculating the creativity measure for Java code as outlined in https://etd.library.emory.edu/concern/etds/b8515p78f?locale=en. The creativity measure is calculated by converting code into abstract syntax trees and finding the tree edit distance between pairs of trees. For more detailed information about the proposed creativity measure, please refer to the thesis found at the website above.
 
 ---
-## Before Using
-Please ensure that you have IntelliJ IDEA installed on your computer. This is the easiest way to ensure that you can build the implementation with the proper dependencies from JavaParser by using the integrated Apache Maven in IntelliJ IDEA. 
+# General Walkthrough for Calculating Distance-Based Creativity Measure for Java Code
 
-***Please ensure that you sort your programs into separate folders based on their coding problems before running this program.***
+## Step 1: Sort your Data
+Before running any calculations, please organize your Java code into folders by their coding problems. For example, if your dataset included Java files for two coding problems (ex. AllOddNums and AllEvenNums), you should have a main folder containing two folders inside named "AllOddNums" and "AllEvenNums", respectively. Once you have sorted your Java files into separate folders organized by coding problem, you can move on to the next step.
 
----
-## About the Files
+## Step 2: Calculate the Average Tree Edit Distances for Java Code
+For this step, you should use the files in the `Tree Edit Distance Calculation` folder. There are more specific instructions of how to use the files in the README file found in that folder. Note that you will need to have IntelliJ IDEA installed. If it is, please open the `Tree Edit Distance Calculation` folder as a project in IntelliJ IDEA. Please make adjustments to the files as instructed in the folder's README file.
 
-``GetDistance2.java``
-This file contains the main class that you will build and run to calculate the average tree edit distance of a program compared to all other programs within the same coding problem group. This implementation will loop through multiple folders of programs sorted by coding problem to calculate average distances within coding problems. Note that some of the logic used in this code is tailored specifically to the format of the data used for this research project, so you will need to change some lines in order to make this implementation work for your data.
+## Step 3: Calculate the z-scores for Java Code
+Once you have the results folder containing CSV files for each coding problem from the previous step, use the files found in the `Z-score Calculation` folder in this directory to calculate the z-scores that will be your final result. The z-scores themselves are defined as the final **creativity measure** in our study. For this step, please ensure that you change the directory defined in the Python file to the path of your results folder from the previous step. This will then calculate the z-scores for each respective CSV file and add them to each CSV as a new column.
 
-The following includes information on which lines you may want to change in order for your implementation to work with your data.
-- Line 69: Please change the string to a directory where you would like the final CSV files with the distances to be stored at (end with a "/" as shown in code).
-- Lines 76-83: This code block extracts information from each file name to store in CSV. However, your data most likely will not have the same format, so please change this block accordingly, but keep the reference to ``score_distance`` as references the final tree edit distance average.
-- Line 98: Please change this to the system path to where your **SORTED** Java files are stored. Please refer to the overall project README for more instruction on how to sort your files.
-- Line 100: Change this to the same directory as defined by Line 69, but remove the last "/" as shown in the code.
+Please have Python3 installed on your system before doing this step. You can use the following commands in your command line after once you have Python installed.
 
+    cd "Z-score Calculation"
+    python3 "Z-score Calculation.py"
 
-``Tree2.java``
-This file contains the Tree2 class, which utilizes JavaParser classes and functions to parse Java code into abstract syntax trees. The Tree2 class also has a class function that calculates the tree edit distance between two Tree2 objects as outlined by Zhang and Shasha in their original 1989 paper. You most likely will not need to make any adjustments to this file.
+Make sure to have Pandas and Scipy libraries installed on your system before running the above commands. If you don't have them installed, please use pip (which should already have been installed with Python) to install them first as shown below:
 
----
+    python3 -m pip install pandas
+    python3 -m pip install scipy
+
+## Other Notes
+
+If there is any issue with anything in this implementation, please reach out to Elijah Chou (elijah.chou@emory.edu or elijah.chou0321@gmail.com) for clarifications. Thanks!
